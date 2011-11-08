@@ -1,22 +1,11 @@
 """NavBar models for building and managing dynamic site navigation
 """
 from django.db import models
-from django.conf import settings
+from django.core.cache import cache
 from django.contrib.auth.models import Group
-from django.core.cache.backends.locmem import CacheClass as LocalMemCache
 from django.utils.translation import ugettext_lazy as _
+from mptt.models import MPTTModel
 
-NAVBAR_LOCAL_CACHE_PARAMS = getattr(settings, 'NAVBAR_LOCAL_CACHE_PARAMS',
-                                    {'cull_frequency': 4,
-                                     'max_entries': 3000,
-                                     'timeout': 60*60*24*3, # 3 days
-                                     })
-
-NAVBAR_USE_LOCAL_CACHE = getattr(settings, 'NAVBAR_USE_LOCAL_CACHE', True)
-if NAVBAR_USE_LOCAL_CACHE:
-    cache = LocalMemCache('localhost', NAVBAR_LOCAL_CACHE_PARAMS)
-else:
-    from django.core.cache import cache
 
 USER_TYPE_CHOICES = [
     ('E', _('Everybody')),
@@ -35,11 +24,11 @@ SELECTION_TYPE_CHOICES = [
 
 class NavBarRootManager(models.Manager):
     def get_query_set(self):
-        all = super(NavBarRootManager, self).get_query_set()
-        return all.filter(parent__isnull=True)
+        qset = super(NavBarRootManager, self).get_query_set()
+        return qset.filter(parent__isnull=True)
 
 
-class NavBarEntry(models.Model):
+class NavBarEntry(MPTTModel):
     name   = models.CharField(max_length=50,
                               help_text=_("text seen in the menu"))
     title  = models.CharField(max_length=50, blank=True,
@@ -66,8 +55,10 @@ class NavBarEntry(models.Model):
     class Meta:
         verbose_name = 'navigation bar element'
         verbose_name_plural = 'navigation bar elements'
-        #order_with_respect_to = 'parent' # doesn't woth with self relations
-        ordering = ('parent__id', 'order', 'name', 'url')
+        ordering = ('tree_id', 'order', 'name', 'url')
+
+    class MPTTMeta:
+        order_insertion_by = ['order']
 
     def __unicode__(self):
         return self.name
