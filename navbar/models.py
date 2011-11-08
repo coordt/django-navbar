@@ -64,23 +64,11 @@ class NavBarEntry(MPTTModel):
         return self.name
 
     def save(self):
-        global cache
-        if not NAVBAR_USE_LOCAL_CACHE:
-            cache.delete('site_navtree')
-            cache.delete('site_navtree_super')
-        else:
-            oldcache = cache
-            cache = LocalMemCache('localhost', NAVBAR_LOCAL_CACHE_PARAMS)
-            del oldcache
+        cache.delete('site_navtree')
+        cache.delete('site_navtree_super')
         return super(NavBarEntry, self).save()
 
     def delete(self, *args, **kwdargs):
-        global cache
-        if not NAVBAR_USE_LOCAL_CACHE:
-            cache.delete('site_navtree')
-            cache.delete('site_navtree_super')
-        else:
-            oldcache = cache
-            cache = LocalMemCache('localhost', NAVBAR_LOCAL_CACHE_PARAMS)
-            del oldcache
+        cache.delete('site_navtree')
+        cache.delete('site_navtree_super')
         return super(NavBarEntry, self).delete(*args, **kwdargs)
