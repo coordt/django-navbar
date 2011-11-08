@@ -19,6 +19,17 @@ ul.navbar-three { margin-top: 0px; }
 ul.navbar-one LI { display: inline; margin-right: 5px; }
 ul.navbar-two LI { display: inline; margin-right: 5px; }
 ul.navbar-three LI { display: inline; margin-right: 5px; }
+
+/* Generated via www.cssmenubuilder.com */
+
+.navbar-one{margin:0 auto; padding:0; height:30px; width:100%; display:block;}
+.navbar-one li{padding:0; margin:0; list-style:none; display:inline;}
+.navbar-one li a{float:left; padding-left:15px; display:block; color:rgb(255,255,255); text-decoration:none; font:12px Verdana, Arial, Helvetica, sans-serif; cursor:pointer; background:url('topMenuImages.png') 0px -30px no-repeat;}
+.navbar-one li a span{line-height:30px; float:left; display:block; padding-right:15px;}
+.navbar-one li a:hover{background-position:0px -60px; color:rgb(255,255,255);}
+.navbar-one li a:hover span{background-position:100% -60px;}
+.navbar-one li a.active, .menu li a.active:hover{line-height:30px; font:12px Verdana, Arial, Helvetica, sans-serif; color:rgb(255,255,255);}
+.navbar-one li a.active span, .menu li a.active:hover span{}
 </style>
 {% endblock styles %}
 </head>
@@ -41,9 +52,13 @@ ul.navbar-three LI { display: inline; margin-right: 5px; }
 
     </div>
     <!-- END Header -->
-    <div class="breadcrumbs">crumbs: {% for crumb in crumbs %}<a href="{{ crumb.path }}">{{ crumb.name }}</a>{% if not forloop.last %} &rsaquo; {% endif %}{% endfor %}<span style='float: right;'>(navbars next 1-3 rows)</span></div>
+    <div class="breadcrumbs">crumbs: 
+        {% for crumb in crumbs %}
+        <a href="{{ crumb.path }}">{{ crumb.name }}</a>
+        {% if not forloop.last %} &rsaquo; {% endif %}
+        {% endfor %}<span style='float: right;'>(navbars next 1-3 rows)</span></div>
 
-{% load navbar %}
+{% load navbar_tags %}
 <div style="display: inline !important;">
 {% navbars %}
 </div>
