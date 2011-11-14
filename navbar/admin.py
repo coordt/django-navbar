@@ -37,11 +37,15 @@ class NavBarEntryAdmin(TreeEditor, admin.ModelAdmin):
     form = NavBarEntryAdminForm
     fieldsets = (
         (None, {'fields': ('name', 'title', 'url', 'order',)}),
-        ('Advanced Permissions', {'classes': ('collapse',),
-                         'fields': ('path_type', 'user_type', 'groups', )}),
+        ('Advanced Permissions', {
+            'classes': ('collapse',),
+            'fields': ('path_type', 'user_type', 'groups', )}),
+        ('Style Options', {
+            'classes': ('collapse',),
+            'fields': ('cssclass', 'active_cssclass', 'img')
+        })
     )
-    list_filter = ('parent',)
-    list_display = ('name', 'url', 'order', 'parent', )
+    list_display = ('name', 'url', 'order', )
     search_fields = ('url', 'name', 'title')
     filter_horizontal = ("groups",)
 
