@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
-    (r'^test/', TemplateView.as_view(template_name="nav.html"))
+    (r'^test/', TemplateView.as_view(template_name="base.html"))
 )
 
 if settings.DEBUG:

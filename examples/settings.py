@@ -127,5 +127,5 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'django.contrib.staticfiles',
     'navbar',
-#    'extensions',
+    'south',
 )
