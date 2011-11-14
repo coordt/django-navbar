@@ -68,7 +68,7 @@ class NavBarEntry(MPTTModel):
     class Meta:
         verbose_name = 'navigation bar element'
         verbose_name_plural = 'navigation bar elements'
-        ordering = ('tree_id', 'order', 'name', 'url')
+        ordering = ('tree_id', 'order',)
 
     class MPTTMeta:
         order_insertion_by = ['order']
