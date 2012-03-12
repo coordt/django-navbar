@@ -1,6 +1,4 @@
-from utils import *
-
-VERSION = (0, 4, 0, "b1")
+VERSION = (0, 4, 0, "b7")
 
 def get_version():
     if VERSION[3] != "final":
