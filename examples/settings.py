@@ -128,4 +128,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'navbar',
     'south',
+    'categories',
+    'categories.editor',
 )

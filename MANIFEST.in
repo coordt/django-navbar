@@ -4,6 +4,7 @@ include LICENSE
 include MANIFEST.in
 include README
 recursive-include docs *.txt
-recursive-include navbar/templates/navbar *.html
+recursive-include navbar/templates/ *.html
+recursive-include navbar/static/ *.css *.js *.png
 prune examples/
 

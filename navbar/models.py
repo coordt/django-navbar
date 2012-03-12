@@ -4,7 +4,7 @@ from django.db import models
 from django.core.cache import cache
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
-from mptt.models import MPTTModel
+from categories.base import CategoryBase
 
 from navbar.settings import STORAGE_CLASS, UPLOAD_TO
 
@@ -29,16 +29,12 @@ class NavBarRootManager(models.Manager):
         return qset.filter(parent__isnull=True)
 
 
-class NavBarEntry(MPTTModel):
-    name   = models.CharField(max_length=50,
-                              help_text=_("text seen in the menu"))
+class NavBarEntry(CategoryBase):
     title  = models.CharField(max_length=50, blank=True,
                               help_text=_("mouse hover description"))
     url    = models.CharField(max_length=200)
     order  = models.IntegerField(default=0)
-    parent = models.ForeignKey('self', related_name='children',
-                               blank=True, null=True)
-
+    
     ## advanced permissions
     path_type = models.CharField(_('path match type'), max_length=1,
                                  choices=SELECTION_TYPE_CHOICES, default='A',
@@ -69,9 +65,6 @@ class NavBarEntry(MPTTModel):
         verbose_name = 'navigation bar element'
         verbose_name_plural = 'navigation bar elements'
         ordering = ('tree_id', 'order',)
-
-    class MPTTMeta:
-        order_insertion_by = ['order']
 
     def __unicode__(self):
         return self.name
