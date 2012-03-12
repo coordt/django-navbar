@@ -11,6 +11,12 @@ DEFAULT_SETTINGS = {
     'TREE_INITIAL_STATE': 'collapsed',
     'STORAGE_CLASS': settings.DEFAULT_FILE_STORAGE,
     'UPLOAD_TO': 'navbar',
+    'MAX_DEPTH': -1,
+    'MARK_SELECTED': True,
+    'SHOW_DEPTH': -1,
+    'CRUMBS_STRIP_ROOT': True,
+    'CRUMBS_HOME': 'home',
+    'ROOT_URL': '/',
 }
 
 USER_SETTINGS = DEFAULT_SETTINGS.copy()

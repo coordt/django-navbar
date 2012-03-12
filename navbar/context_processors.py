@@ -1,12 +1,6 @@
 from utils import get_navtree, get_navbar
-from django.conf import settings
-
-MAX_DEPTH = getattr(settings, 'NAVBAR_MAX_DEPTH', -1)
-MARK_SELECTED = getattr(settings, 'NAVBAR_MARK_SELECTED', True)
-SHOW_DEPTH = getattr(settings, 'NAVBAR_SHOW_DEPTH', -1)
-
-CRUMBS_STRIP_ROOT = getattr(settings, 'NAVBAR_CRUMBS_STRIP_ROOT', True)
-CRUMBS_HOME = getattr(settings, 'NAVBAR_CRUMBS_HOME', 'home')
+from .settings import (MAX_DEPTH, MARK_SELECTED, SHOW_DEPTH, 
+                        CRUMBS_STRIP_ROOT, CRUMBS_HOME, ROOT_URL)
 
 def crumbs(request):
     """adds the path 'crumbs'
@@ -15,7 +9,7 @@ def crumbs(request):
       {'name': 'bar',  'path': '/foo/bar'},
       {'name': 'bing', 'path': '/foo/bar/bing'} ]
     """
-    rooturl = getattr(settings, 'ROOT_URL', '')
+    rooturl = ROOT_URL
     assert(request.path.startswith(rooturl))
     if request.path != '/':
         # split the path into the names /name1/name2/name3
