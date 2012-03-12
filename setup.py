@@ -1,4 +1,10 @@
 from setuptools import setup, find_packages
+import os
+
+try:
+    reqs = open(os.path.join(os.path.dirname(__file__), 'requirements.txt')).read()
+except (IOError, OSError):
+    reqs = ''
 
 setup(
     name='django-navbar',
@@ -23,4 +29,5 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
+    install_requires = reqs,
 )
