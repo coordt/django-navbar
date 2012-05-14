@@ -14,7 +14,7 @@ class NavBarEntryAdmin(CategoryBaseAdmin):
         (None, {'fields': ('name', 'title', 'url', 'order', 'parent')}),
         ('Advanced Permissions', {
             'classes': ('collapse',),
-            'fields': ('path_type', 'user_type', 'groups', )}),
+            'fields': ('path_type', 'user_type', 'groups', 'slug')}),
         ('Style Options', {
             'classes': ('collapse',),
             'fields': ('cssclass', 'active_cssclass', 'img')
