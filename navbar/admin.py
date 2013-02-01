@@ -11,7 +11,7 @@ url_re = re.compile(r'^(https?://([a-zA-Z0-9]+\.)+[a-zA-Z0-9]+([:@][a-zA-Z0-9@%-
 
 class NavBarEntryAdmin(CategoryBaseAdmin):
     fieldsets = (
-        (None, {'fields': ('name', 'title', 'url', 'order', 'parent')}),
+        (None, {'fields': ('name', 'title', 'url', 'order', 'parent', 'active')}),
         ('Advanced Permissions', {
             'classes': ('collapse',),
             'fields': ('path_type', 'user_type', 'groups', 'slug')}),
