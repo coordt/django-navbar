@@ -20,7 +20,7 @@ class NavBarEntryAdmin(CategoryBaseAdmin):
             'fields': ('cssclass', 'active_cssclass', 'img')
         })
     )
-    list_display = ('name', 'url', 'order', )
+    list_display = ('name', 'url', 'order', 'active')
     search_fields = ('url', 'name', 'title')
     filter_horizontal = ("groups",)
 
