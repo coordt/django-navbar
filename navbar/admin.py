@@ -1,7 +1,6 @@
 import re
 
 from django.contrib import admin
-from django import forms
 
 from navbar.models import NavBarEntry
 from categories.base import CategoryBaseAdmin
