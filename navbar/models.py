@@ -5,7 +5,6 @@ from django.core.cache import cache
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
 from categories.base import CategoryBase
-from mptt.managers import TreeManager
 
 from navbar.settings import STORAGE_CLASS, UPLOAD_TO
 
@@ -25,10 +24,10 @@ SELECTION_TYPE_CHOICES = [
 ]
 
 
-class NavBarRootManager(TreeManager):
+class NavBarRootManager(models.Manager):
     def get_query_set(self):
         qset = super(NavBarRootManager, self).get_query_set()
-        return qset.root_nodes().order_by("order")
+        return qset.filter(parent__isnull=True)
 
 
 class NavBarEntry(CategoryBase):
