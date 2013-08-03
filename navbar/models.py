@@ -27,7 +27,7 @@ SELECTION_TYPE_CHOICES = [
 class NavBarRootManager(models.Manager):
     def get_query_set(self):
         qset = super(NavBarRootManager, self).get_query_set()
-        return qset.filter(parent__isnull=True)
+        return qset.filter(parent__isnull=True).filter(active=True).order_by('order', )
 
 
 class NavBarEntry(CategoryBase):
@@ -69,7 +69,7 @@ class NavBarEntry(CategoryBase):
     class Meta:
         verbose_name = 'navigation bar element'
         verbose_name_plural = 'navigation bar elements'
-        ordering = ('tree_id', 'order',)
+        ordering = ('parent__id', 'order',)
 
     def __unicode__(self):
         return self.name
