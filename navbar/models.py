@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
 from categories.base import CategoryBase
 
-from navbar.settings import STORAGE_CLASS, UPLOAD_TO
+from navbar.settings import STORAGE_CLASS, UPLOAD_TO, CACHE_PREFIX
 
 USER_TYPE_CHOICES = [
     ('E', _('Everybody')),
@@ -75,11 +75,11 @@ class NavBarEntry(CategoryBase):
         return self.name
 
     def save(self):
-        cache.delete('site_navtree')
-        cache.delete('site_navtree_super')
+        cache.delete('%s_site_navtree' % CACHE_PREFIX)
+        cache.delete('%s_site_navtree_super' % CACHE_PREFIX)
         return super(NavBarEntry, self).save()
 
     def delete(self, *args, **kwdargs):
-        cache.delete('site_navtree')
-        cache.delete('site_navtree_super')
+        cache.delete('%s_site_navtree' % CACHE_PREFIX)
+        cache.delete('%s_site_navtree_super' % CACHE_PREFIX)
         return super(NavBarEntry, self).delete(*args, **kwdargs)

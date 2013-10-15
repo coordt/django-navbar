@@ -1,3 +1,6 @@
+from .settings import CACHE_PREFIX
+
+
 def _Qperm(user=None):
     from django.db.models.query import Q
     exQ = Q()
@@ -48,11 +51,11 @@ def generate_navtree(user=None, maxdepth=-1):
 
 def get_navtree(user=None, maxdepth=-1):
     from django.core.cache import cache
-    cachename = 'site_navtree'
+    cachename = '%s_site_navtree' % CACHE_PREFIX
     timeout = 60 * 60 * 24
     if user is not None and not user.is_anonymous():
         if user.is_superuser:
-            cachename = 'site_navtree_super'
+            cachename = '%s_site_navtree_super' % CACHE_PREFIX
         else:
             cachename = 'site_navtree_' + str(user.id)
             timeout = 60 * 15

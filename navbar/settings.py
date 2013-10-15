@@ -14,6 +14,7 @@ DEFAULT_SETTINGS = {
     'CRUMBS_STRIP_ROOT': True,
     'CRUMBS_HOME': 'home',
     'ROOT_URL': '/',
+    'CACHE_PREFIX': ''
 }
 
 USER_SETTINGS = DEFAULT_SETTINGS.copy()
