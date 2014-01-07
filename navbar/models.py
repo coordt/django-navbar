@@ -39,29 +39,37 @@ class NavBarEntry(CategoryBase):
     order = models.IntegerField(default=0)
 
     ## advanced permissions
-    path_type = models.CharField(_('path match type'),
+    path_type = models.CharField(
+        _('path match type'),
         max_length=1,
         choices=SELECTION_TYPE_CHOICES,
         default='A',
         help_text=_("Control how this element is marked 'selected' based on the "
-                 "request path."))
-    user_type = models.CharField(_('user login type'),
+                    "request path."))
+    user_type = models.CharField(
+        _('user login type'),
         max_length=1,
         choices=USER_TYPE_CHOICES,
         default=USER_TYPE_CHOICES[0][0])
     groups = models.ManyToManyField(Group, null=True, blank=True)
 
     ## advance style options
-    cssclass = models.CharField(_("Normal CSS Class"),
+    cssclass = models.CharField(
+        _("Normal CSS Class"),
         blank=True,
         max_length=100,)
-    active_cssclass = models.CharField(_("Active CSS Class"),
+    active_cssclass = models.CharField(
+        _("Active CSS Class"),
         blank=True,
         max_length=100, )
-    img = models.FileField(_("Menu Image"),
+    img = models.FileField(
+        _("Menu Image"),
         blank=True, null=True,
         upload_to=UPLOAD_TO,
         storage=STORAGE_CLASS())
+    new_window = models.BooleanField(
+        _("Open in new window"),
+        default=False)
 
     objects = models.Manager()
     top = NavBarRootManager()

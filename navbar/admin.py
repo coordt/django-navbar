@@ -16,7 +16,7 @@ class NavBarEntryAdmin(CategoryBaseAdmin):
             'fields': ('path_type', 'user_type', 'groups', 'slug')}),
         ('Style Options', {
             'classes': ('collapse',),
-            'fields': ('cssclass', 'active_cssclass', 'img')
+            'fields': ('cssclass', 'active_cssclass', 'img', 'new_window', )
         })
     )
     list_display = ('name', 'url', 'order', 'active')
