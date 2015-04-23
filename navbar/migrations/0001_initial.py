@@ -1,77 +1,46 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'NavBarEntry'
-        db.create_table('navbar_navbarentry', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
-            ('url', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('order', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['navbar.NavBarEntry'])),
-            ('path_type', self.gf('django.db.models.fields.CharField')(default='A', max_length=1)),
-            ('user_type', self.gf('django.db.models.fields.CharField')(default='E', max_length=1)),
-        ))
-        db.send_create_signal('navbar', ['NavBarEntry'])
-
-        # Adding M2M table for field groups on 'NavBarEntry'
-        db.create_table('navbar_navbarentry_groups', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('navbarentry', models.ForeignKey(orm['navbar.navbarentry'], null=False)),
-            ('group', models.ForeignKey(orm['auth.group'], null=False))
-        ))
-        db.create_unique('navbar_navbarentry_groups', ['navbarentry_id', 'group_id'])
+from django.db import models, migrations
+import mptt.fields
+import queued_storage.backends
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'NavBarEntry'
-        db.delete_table('navbar_navbarentry')
+class Migration(migrations.Migration):
 
-        # Removing M2M table for field groups on 'NavBarEntry'
-        db.delete_table('navbar_navbarentry_groups')
+    dependencies = [
+        ('auth', '0001_initial'),
+    ]
 
-
-    models = {
-        'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        'auth.permission': {
-            'Meta': {'ordering': "('content_type__app_label', 'content_type__model', 'codename')", 'unique_together': "(('content_type', 'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        'navbar.navbarentry': {
-            'Meta': {'object_name': 'NavBarEntry'},
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['auth.Group']", 'null': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
-            'order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': "orm['navbar.NavBarEntry']"}),
-            'path_type': ('django.db.models.fields.CharField', [], {'default': "'A'", 'max_length': '1'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
-            'url': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'user_type': ('django.db.models.fields.CharField', [], {'default': "'E'", 'max_length': '1'})
-        }
-    }
-
-    complete_apps = ['navbar']
+    operations = [
+        migrations.CreateModel(
+            name='NavBarEntry',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=100, verbose_name='name')),
+                ('slug', models.SlugField(verbose_name='slug')),
+                ('active', models.BooleanField(default=True, verbose_name='active')),
+                ('lft', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('level', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('title', models.CharField(help_text='mouse hover description', max_length=50, blank=True)),
+                ('url', models.CharField(max_length=200)),
+                ('order', models.IntegerField(default=0)),
+                ('path_type', models.CharField(default=b'A', help_text="Control how this element is marked 'selected' based on the request path.", max_length=1, verbose_name='path match type', choices=[(b'N', 'Never'), (b'E', 'Exact'), (b'P', 'ExactOrParent'), (b'A', 'OnPathOrParent (default)')])),
+                ('user_type', models.CharField(default=b'E', max_length=1, verbose_name='user login type', choices=[(b'E', 'Everybody'), (b'A', 'Anonymous Only'), (b'L', 'Logged In'), (b'S', 'Staff'), (b'X', 'Superuser')])),
+                ('cssclass', models.CharField(max_length=100, verbose_name='Normal CSS Class', blank=True)),
+                ('active_cssclass', models.CharField(max_length=100, verbose_name='Active CSS Class', blank=True)),
+                ('img', models.FileField(storage=queued_storage.backends.QueuedOverwriteFileStorage(), upload_to=b'navbar', null=True, verbose_name='Menu Image', blank=True)),
+                ('new_window', models.BooleanField(default=False, verbose_name='Open in new window')),
+                ('groups', models.ManyToManyField(to='auth.Group', null=True, blank=True)),
+                ('parent', mptt.fields.TreeForeignKey(related_name='children', verbose_name='parent', blank=True, to='navbar.NavBarEntry', null=True)),
+            ],
+            options={
+                'ordering': ('parent__id', 'order'),
+                'verbose_name': 'navigation bar element',
+                'verbose_name_plural': 'navigation bar elements',
+            },
+            bases=(models.Model,),
+        ),
+    ]
