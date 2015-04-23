@@ -15,8 +15,6 @@ setup(
     author='Doug Napoleone',
     author_email='doug.napoleone@gmail.com',
     url='http://code.google.com/p/django-navbar/',
-    license = 'MIT License',
-    platforms = ['any'],
     packages=find_packages(),
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -28,6 +26,5 @@ setup(
         'Framework :: Django',
     ],
     include_package_data=True,
-    zip_safe=False,
-    install_requires = reqs,
+    install_requires=reqs,
 )
