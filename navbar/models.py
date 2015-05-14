@@ -25,7 +25,7 @@ SELECTION_TYPE_CHOICES = [
 
 
 class NavBarRootManager(models.Manager):
-    def get_query_set(self):
+    def get_queryset(self):
         qset = super(NavBarRootManager, self).get_query_set()
         return qset.filter(parent__isnull=True).filter(active=True).order_by('order', )
 
@@ -38,7 +38,7 @@ class NavBarEntry(CategoryBase):
     url = models.CharField(max_length=200)
     order = models.IntegerField(default=0)
 
-    ## advanced permissions
+    # advanced permissions
     path_type = models.CharField(
         _('path match type'),
         max_length=1,

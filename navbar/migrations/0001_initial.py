@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import mptt.fields
-import queued_storage.backends
+from navbar.settings import STORAGE_CLASS
 
 
 class Migration(migrations.Migration):
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
                 ('user_type', models.CharField(default=b'E', max_length=1, verbose_name='user login type', choices=[(b'E', 'Everybody'), (b'A', 'Anonymous Only'), (b'L', 'Logged In'), (b'S', 'Staff'), (b'X', 'Superuser')])),
                 ('cssclass', models.CharField(max_length=100, verbose_name='Normal CSS Class', blank=True)),
                 ('active_cssclass', models.CharField(max_length=100, verbose_name='Active CSS Class', blank=True)),
-                ('img', models.FileField(storage=queued_storage.backends.QueuedOverwriteFileStorage(), upload_to=b'navbar', null=True, verbose_name='Menu Image', blank=True)),
+                ('img', models.FileField(storage=STORAGE_CLASS(), upload_to=b'navbar', null=True, verbose_name='Menu Image', blank=True)),
                 ('new_window', models.BooleanField(default=False, verbose_name='Open in new window')),
                 ('groups', models.ManyToManyField(to='auth.Group', null=True, blank=True)),
                 ('parent', mptt.fields.TreeForeignKey(related_name='children', verbose_name='parent', blank=True, to='navbar.NavBarEntry', null=True)),

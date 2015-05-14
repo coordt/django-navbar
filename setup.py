@@ -26,5 +26,5 @@ setup(
         'Framework :: Django',
     ],
     include_package_data=True,
-    install_requires=reqs,
+    install_requires=reqs
 )
