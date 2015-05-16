@@ -26,7 +26,7 @@ SELECTION_TYPE_CHOICES = [
 
 class NavBarRootManager(models.Manager):
     def get_queryset(self):
-        qset = super(NavBarRootManager, self).get_query_set()
+        qset = super(NavBarRootManager, self).get_queryset()
         return qset.filter(parent__isnull=True).filter(active=True).order_by('order', )
 
 
@@ -53,7 +53,7 @@ class NavBarEntry(CategoryBase):
         default=USER_TYPE_CHOICES[0][0])
     groups = models.ManyToManyField(Group, null=True, blank=True)
 
-    ## advance style options
+    # advance style options
     cssclass = models.CharField(
         _("Normal CSS Class"),
         blank=True,
