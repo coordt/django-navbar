@@ -43,7 +43,7 @@ def generate_navtree(user=None, maxdepth=-1):
         if invdepth == 0:
             return []
         return [navent(ent, invdepth, parent)
-                        for ent in base.filter(permQ).distinct().order_by('order')]
+                        for ent in base.filter(active=True).filter(permQ).distinct().order_by('order')]
     tree = navlevel(NavBarEntry.top, maxdepth)
     urls = sorted(urls.iteritems(), key=lambda x: x[0], reverse=True)
     return {'tree': tree, 'byurl': urls}
