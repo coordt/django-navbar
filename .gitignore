@@ -2,3 +2,5 @@
 .DS_Store
 *~
 django_navbar.egg-info
+build/
+dist/
