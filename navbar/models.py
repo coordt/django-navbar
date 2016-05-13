@@ -51,7 +51,7 @@ class NavBarEntry(CategoryBase):
         max_length=1,
         choices=USER_TYPE_CHOICES,
         default=USER_TYPE_CHOICES[0][0])
-    groups = models.ManyToManyField(Group, null=True, blank=True)
+    groups = models.ManyToManyField(Group, blank=True)
 
     # advance style options
     cssclass = models.CharField(
