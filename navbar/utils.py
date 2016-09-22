@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+from six import iteritems
 
 from .settings import CACHE_PREFIX
 
@@ -47,7 +48,7 @@ def generate_navtree(user=None, maxdepth=-1):
         return [navent(ent, invdepth, parent)
                         for ent in base.filter(active=True).filter(permQ).distinct().order_by('order')]
     tree = navlevel(NavBarEntry.top, maxdepth)
-    urls = sorted(urls.iteritems(), key=lambda x: x[0], reverse=True)
+    urls = sorted(iteritems(urls), key=lambda x: x[0], reverse=True)
     return {'tree': tree, 'byurl': urls}
 
 
