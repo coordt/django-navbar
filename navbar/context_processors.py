@@ -1,4 +1,6 @@
-from utils import get_navtree, get_navbar
+from __future__ import absolute_import
+
+from .utils import get_navtree, get_navbar
 from .settings import (MAX_DEPTH, MARK_SELECTED, SHOW_DEPTH,
                         CRUMBS_STRIP_ROOT, CRUMBS_HOME, ROOT_URL)
 

@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+from six import iteritems
+
 from .settings import CACHE_PREFIX
 
 
@@ -20,7 +23,7 @@ def _Qperm(user=None):
 
 
 def generate_navtree(user=None, maxdepth=-1):
-    from models import NavBarEntry
+    from .models import NavBarEntry
     if maxdepth == 0:
         return []  # silly...
     permQ = _Qperm(user)
@@ -45,7 +48,7 @@ def generate_navtree(user=None, maxdepth=-1):
         return [navent(ent, invdepth, parent)
                         for ent in base.filter(active=True).filter(permQ).distinct().order_by('order')]
     tree = navlevel(NavBarEntry.top, maxdepth)
-    urls = sorted(urls.iteritems(), key=lambda x: x[0], reverse=True)
+    urls = sorted(iteritems(urls), key=lambda x: x[0], reverse=True)
     return {'tree': tree, 'byurl': urls}
 
 
@@ -67,5 +70,5 @@ def get_navtree(user=None, maxdepth=-1):
 
 
 def get_navbar(user=None):
-    from models import NavBarEntry
+    from .models import NavBarEntry
     return NavBarEntry.top.filter(_Qperm(user))
