@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from .settings import CACHE_PREFIX
 
 
@@ -20,7 +22,7 @@ def _Qperm(user=None):
 
 
 def generate_navtree(user=None, maxdepth=-1):
-    from models import NavBarEntry
+    from .models import NavBarEntry
     if maxdepth == 0:
         return []  # silly...
     permQ = _Qperm(user)
@@ -67,5 +69,5 @@ def get_navtree(user=None, maxdepth=-1):
 
 
 def get_navbar(user=None):
-    from models import NavBarEntry
+    from .models import NavBarEntry
     return NavBarEntry.top.filter(_Qperm(user))
