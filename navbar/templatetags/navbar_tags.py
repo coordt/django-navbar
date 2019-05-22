@@ -1,7 +1,6 @@
 from django.template import Library
 from django import template
 from django.conf import settings
-from navbar.models import NavBarEntry
 
 
 def _getdefault(name, default=None):
@@ -94,20 +93,7 @@ class NavBarNode(template.Node):
         self.template_name = template.Variable(template_name)
 
     def render(self, context):
-        from django.template.loader import render_to_string
-        navbar_name = resolve_or_val(self.navbar_name, context)
-        try:
-            navbar = NavBarEntry.objects.get(name=navbar_name)
-        except NavBarEntry.DoesNotExist:
-            if settings.TEMPLATE_DEBUG:
-                return 'Cant Find %s' % navbar_name
-            else:
-                return ''
-        template_name = resolve_or_val(self.template_name, context)
-        return render_to_string(
-            template_name,
-            {'navbar': navbar.children.all()},
-            context)
+        return ''
 
 
 def render_navbar(parser, token):
@@ -140,19 +126,7 @@ class TopNavBarNode(template.Node):
         self.template_name = template.Variable(template_name)
 
     def render(self, context):
-        from django.template.loader import render_to_string
-        try:
-            navbar = NavBarEntry.objects.filter(parent__isnull=True)
-        except NavBarEntry.DoesNotExist:
-            if settings.TEMPLATE_DEBUG:
-                return 'Cant Find Top navbar items'
-            else:
-                return ''
-        template_name = resolve_or_val(self.template_name, context)
-        return render_to_string(
-            template_name,
-            {'navbar': navbar},
-            context)
+        return ''
 
 
 def render_topnavbar(parser, token):
